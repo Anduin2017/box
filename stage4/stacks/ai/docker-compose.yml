@@ -113,9 +113,12 @@ services:
       - Underlyings__OpenAI__Token={{OPENAI_KEY}}
       - Underlyings__DeepSeek__Token={{DEEPSEEK_KEY}}
       - ApiKey={{OLLAMA_GATEWAY_API_KEY}}
+      - Clickhouse__Enabled=true
+      - Clickhouse__ConnectionString=Host=clickhouse;Protocol=http;Port=8123;User=default;Password=123456;Database=default
     networks:
       - internal
       - proxy_app
+      - clickhouse_net
     stop_grace_period: 20s
     deploy:
       resources:
@@ -215,6 +218,8 @@ networks:
   internal:
     driver: overlay
   proxy_app:
+    external: true
+  clickhouse_net:
     external: true
 
 volumes:
